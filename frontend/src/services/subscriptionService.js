@@ -1,18 +1,6 @@
-const KEY = "spentwise_subscriptions";
+import { api } from "./api";
 
-export function getSubscriptions() {
-    try {
-        const parsed = JSON.parse(localStorage.getItem(KEY));
-        return Array.isArray(parsed) ? parsed : [];
-    } catch {
-        return [];
-    }
-}
-
-export function saveSubscriptions(list) {
-    try {
-        localStorage.setItem(KEY, JSON.stringify(list));
-    } catch {
-        // storage full or blocked: ignore
-    }
-}
+export const getSubscriptions = () => api.get("/subscriptions");
+export const createSubscription = (sub) => api.post("/subscriptions", sub);
+export const updateSubscription = (id, values) => api.put(`/subscriptions/${id}`, values);
+export const deleteSubscription = (id) => api.del(`/subscriptions/${id}`);

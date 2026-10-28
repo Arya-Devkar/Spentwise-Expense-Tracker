@@ -1,54 +1,176 @@
-.filters {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    gap: 16px;
+.expense-form {
     background: #160b24;
     border: 1px solid rgba(192, 132, 252, 0.25);
     border-radius: 16px;
-    padding: 16px 24px;
+    padding: 24px;
     color: #f3e8ff;
 }
 
-.filters__field {
+.expense-form__title {
+    margin: 0 0 16px;
+    font-size: 1.5rem;
+}
+
+.expense-form__actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.expense-form__actions .expense-form__submit {
+    margin-top: 0;
+}
+
+.expense-form__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.expense-form__field {
     display: flex;
     flex-direction: column;
     gap: 6px;
 }
 
-.filters__field label {
+.expense-form__field--wide {
+    grid-column: 1 / -1;
+}
+
+.expense-form__field label {
     font-size: 0.875rem;
     color: #d8b4fe;
 }
 
-.filters__field select,
-.filters__field input {
+.expense-form__field input,
+.expense-form__field select {
     background: #0d0617;
     color: #f3e8ff;
     border: 1px solid rgba(192, 132, 252, 0.3);
     border-radius: 10px;
     padding: 10px 12px;
     font: inherit;
+}
+
+.expense-form__field input:focus,
+.expense-form__field select:focus {
+    outline: 2px solid #c084fc;
+    outline-offset: 1px;
+    border-color: #c084fc;
+}
+
+/* Makes the native date picker icon visible on dark backgrounds */
+.expense-form__field input[type="date"] {
     color-scheme: dark;
 }
 
-.filters__reset {
+/* Add-category row (shown when "+ Add new category…" is chosen) */
+.expense-form__add-row {
+    display: flex;
+    gap: 12px;
+}
+
+.expense-form__add-row input {
+    flex: 1;
+    min-width: 0;
+}
+
+.expense-form__add-btn,
+.expense-form__cancel-btn {
     background: transparent;
-    color: #a78bfa;
-    border: 1px solid rgba(167, 139, 250, 0.4);
     border-radius: 10px;
     padding: 10px 18px;
     font: inherit;
     font-weight: 600;
     cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s ease, color 0.2s ease;
 }
 
-.filters__reset:hover {
+.expense-form__add-btn {
+    color: #c084fc;
+    border: 1px solid #c084fc;
+}
+
+.expense-form__add-btn:hover {
+    background: rgba(192, 132, 252, 0.15);
+    color: #f3e8ff;
+}
+
+.expense-form__cancel-btn {
+    color: #a78bfa;
+    border: 1px solid rgba(167, 139, 250, 0.4);
+}
+
+.expense-form__cancel-btn:hover {
     background: rgba(167, 139, 250, 0.12);
     color: #f3e8ff;
 }
 
-.filters__reset:focus-visible {
+.expense-form__add-btn:focus-visible,
+.expense-form__cancel-btn:focus-visible {
     outline: 2px solid #c084fc;
     outline-offset: 2px;
+}
+
+.expense-form__error {
+    margin: 16px 0 0;
+    color: #fda4af;
+    font-size: 0.875rem;
+}
+
+.expense-form__error--inline {
+    margin: 0;
+}
+
+.expense-form__submit {
+    margin-top: 20px;
+    background: #7e22ce;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 24px;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.expense-form__submit:hover {
+    background: #a855f7;
+    box-shadow: 0 0 16px rgba(168, 85, 247, 0.5);
+}
+
+.expense-form__submit:focus-visible {
+    outline: 2px solid #c084fc;
+    outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+    .expense-form {
+        padding: 16px;
+    }
+
+    .expense-form__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .expense-form__add-row {
+        flex-direction: column;
+    }
+
+    .expense-form__add-btn,
+    .expense-form__cancel-btn,
+    .expense-form__submit {
+        width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .expense-form__submit,
+    .expense-form__add-btn,
+    .expense-form__cancel-btn {
+        transition: none;
+    }
 }

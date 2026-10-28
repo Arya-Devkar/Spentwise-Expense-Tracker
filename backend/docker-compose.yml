@@ -1,0 +1,19 @@
+services:
+  backend:
+    build: ./backend
+    environment:
+      - DB_PATH=/data/spentwise.db
+    volumes:
+      - spentwise-data:/data
+    ports:
+      - "8000:8000"   # optional: lets you open http://localhost:8000/docs
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  spentwise-data:

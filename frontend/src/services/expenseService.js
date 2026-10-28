@@ -1,18 +1,6 @@
-const KEY = "spentwise_expenses";
+import { api } from "./api";
 
-export function getExpenses() {
-    try {
-        const parsed = JSON.parse(localStorage.getItem(KEY));
-        return Array.isArray(parsed) ? parsed : [];
-    } catch {
-        return [];
-    }
-}
-
-export function saveExpenses(expenses) {
-    try {
-        localStorage.setItem(KEY, JSON.stringify(expenses));
-    } catch {
-        // storage full or blocked: ignore
-    }
-}
+export const getExpenses = () => api.get("/expenses");
+export const createExpense = (expense) => api.post("/expenses", expense);
+export const updateExpense = (id, values) => api.put(`/expenses/${id}`, values);
+export const deleteExpense = (id) => api.del(`/expenses/${id}`);

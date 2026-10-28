@@ -6,7 +6,7 @@ import {
 import { getTodayLocal } from "../utils/date";
 import "./ExpenseForm.css";
 
-// EDIT 1: now accepts an optional expense. If given, the form starts filled in.
+// Blank values for a new expense, or the expense's values when editing.
 function getInitialValues(categories, expense) {
     if (expense) {
         return {
@@ -24,7 +24,6 @@ function getInitialValues(categories, expense) {
     };
 }
 
-// EDIT 2: three new props: editingExpense, onUpdateExpense, onCancelEdit
 function ExpenseForm({
     categories,
     onAddExpense,
@@ -37,6 +36,8 @@ function ExpenseForm({
         getInitialValues(categories, editingExpense)
     );
     const [error, setError] = useState("");
+    // true while a request to the server is in flight (prevents double submit)
+    const [saving, setSaving] = useState(false);
 
     // "+ Add new category…" flow
     const [isAddingCategory, setIsAddingCategory] = useState(false);
@@ -88,9 +89,9 @@ function ExpenseForm({
         handleChange(e);
     }
 
-    function handleAddCategory() {
-        // The parent owns the list and validates; we only display the result.
-        const result = onAddCategory(newCategory);
+    // async: the parent now saves the category on the server and returns a Promise
+    async function handleAddCategory() {
+        const result = await onAddCategory(newCategory);
 
         if (!result.ok) {
             setCategoryError(result.message);
@@ -111,8 +112,9 @@ function ExpenseForm({
         }
     }
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
+        if (saving) return;
 
         if (isAddingCategory) {
             setError("Finish adding the new category, or cancel it, first.");
@@ -135,7 +137,6 @@ function ExpenseForm({
             return;
         }
 
-        // EDIT 3: build the values once, then either update or add
         const values = {
             title,
             amount,
@@ -143,19 +144,30 @@ function ExpenseForm({
             date: formData.date,
         };
 
-        if (editingExpense) {
-            onUpdateExpense(editingExpense.id, values);
-            return;
-        }
+        setSaving(true);
+        try {
+            if (editingExpense) {
+                // Dashboard leaves edit mode itself when the update succeeds
+                await onUpdateExpense(editingExpense.id, values);
+                return;
+            }
 
-        onAddExpense({ id: crypto.randomUUID(), ...values });
-        setFormData(getInitialValues(categories));
-        setError("");
+            // The server generates the real id; this one is ignored by the API
+            const ok = await onAddExpense({ id: crypto.randomUUID(), ...values });
+
+            // Clear the form only if the server accepted it. On failure the
+            // user keeps what they typed and sees the error notification.
+            if (ok) {
+                setFormData(getInitialValues(categories));
+                setError("");
+            }
+        } finally {
+            setSaving(false);
+        }
     }
 
     return (
         <form className="expense-form" onSubmit={handleSubmit} noValidate>
-            {/* EDIT 4a: heading changes in edit mode */}
             <h2 className="expense-form__title">
                 {editingExpense ? "Edit expense" : "Expense"}
             </h2>
@@ -276,10 +288,17 @@ function ExpenseForm({
                 </p>
             )}
 
-            {/* EDIT 4b: submit button text changes, Cancel appears in edit mode */}
             <div className="expense-form__actions">
-                <button type="submit" className="expense-form__submit">
-                    {editingExpense ? "Save changes" : "Add expense"}
+                <button
+                    type="submit"
+                    className="expense-form__submit"
+                    disabled={saving}
+                >
+                    {saving
+                        ? "Saving..."
+                        : editingExpense
+                            ? "Save changes"
+                            : "Add expense"}
                 </button>
                 {editingExpense && (
                     <button

@@ -1,18 +1,8 @@
-const KEY = "spentwise_budget";
+import { api } from "./api";
 
-export function getBudget() {
-    try {
-        const value = Number(localStorage.getItem(KEY));
-        return Number.isFinite(value) && value > 0 ? value : 0;
-    } catch {
-        return 0;
-    }
+export async function getBudget() {
+    const data = await api.get("/budget");
+    return data.amount;
 }
 
-export function saveBudget(value) {
-    try {
-        localStorage.setItem(KEY, String(value));
-    } catch {
-        // ignore
-    }
-}
+export const saveBudget = (amount) => api.put("/budget", { amount });
