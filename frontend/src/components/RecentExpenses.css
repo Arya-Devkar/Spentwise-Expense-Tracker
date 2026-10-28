@@ -1,0 +1,173 @@
+.recent {
+    background: #160b24;
+    border: 1px solid rgba(192, 132, 252, 0.25);
+    border-radius: 16px;
+    padding: 24px;
+    color: #f3e8ff;
+}
+
+.recent__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.recent__title {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.recent__total {
+    margin: 0;
+    color: #d8b4fe;
+}
+
+.recent__total strong {
+    color: #f3e8ff;
+}
+
+.recent__empty {
+    margin: 0;
+    color: #a78bfa;
+}
+
+.recent__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+}
+
+.recent__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px 16px;
+    background: #0d0617;
+    border: 1px solid rgba(192, 132, 252, 0.2);
+    border-radius: 12px;
+    padding: 12px 16px;
+}
+
+.recent__info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+    flex: 1 1 200px;
+}
+
+.recent__name {
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.recent__meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 0.8125rem;
+    color: #a78bfa;
+}
+
+.recent__badge {
+    background: rgba(126, 34, 206, 0.35);
+    color: #e9d5ff;
+    border-radius: 999px;
+    padding: 2px 10px;
+}
+
+.recent__actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.recent__amount {
+    font-weight: 700;
+    color: #c084fc;
+    white-space: nowrap;
+}
+
+/* Remove / confirm buttons */
+.recent__confirm {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.recent__confirm-text {
+    font-size: 0.8125rem;
+    color: #fda4af;
+}
+
+.recent__btn {
+    background: transparent;
+    color: #d8b4fe;
+    border: 1px solid rgba(192, 132, 252, 0.4);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font: inherit;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.recent__btn:hover {
+    background: rgba(192, 132, 252, 0.15);
+    color: #fff;
+}
+
+.recent__btn--remove {
+    color: #fda4af;
+    border-color: rgba(253, 164, 175, 0.4);
+}
+
+.recent__btn--remove:hover {
+    background: rgba(239, 68, 68, 0.15);
+    color: #fff;
+}
+
+.recent__btn--danger {
+    background: #b91c1c;
+    border-color: #b91c1c;
+    color: #fff;
+}
+
+.recent__btn--danger:hover {
+    background: #ef4444;
+    border-color: #ef4444;
+}
+
+.recent__btn:focus-visible {
+    outline: 2px solid #c084fc;
+    outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+    .recent {
+        padding: 16px;
+    }
+
+    .recent__actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .recent__btn {
+        transition: none;
+    }
+}
